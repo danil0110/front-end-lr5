@@ -4,11 +4,9 @@ const arr1 = ['JavaScript', 'C++', 'Node.js', 'React.js', 'React Native'];
 arr1.forEach(item => console.log(item));
 
 // forEach #2
-const arr2 = document.querySelectorAll('tabs tab-item');
+const arr2 = document.querySelectorAll('.tabs .tab-item');
 let currentTab = 3;
-arr2.forEach((item, i) => {
-    item.classList.remove('visible');
-});
+arr2.forEach(item => item.classList.remove('visible'));
 arr2[currentTab].classList.add('visible');
 
 // filter #1
