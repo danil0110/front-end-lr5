@@ -74,3 +74,119 @@ const resultString = someStrings.reduceRight((res, item) => `${res} ${item}`);
 console.log(resultString);
 
 // ====================== ООП ======================
+// Prototypes
+const Animal = function(name) {
+    this.name = name;
+}
+
+Animal.prototype.run = function() {
+    console.log(`running!`);
+};
+
+Animal.prototype.sayHi = function() {
+    console.log(`Hi, I'm a ${this.name}!`);
+}
+
+const Dog = function(name, ownerName) {
+    Animal.call(this, name);
+    this.ownerName = ownerName;
+    this._privateVoice = 'Woof';
+}
+
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+Dog.prototype.sayHi = function() {
+    console.log(`Hi, I'm ${this.name}, and I love my human ${this.ownerName}! ${this.woof()}!`);
+};
+Dog.prototype.woof = function() {
+    return this._privateVoice;
+}
+
+const myAnimal1 = new Animal('Dinosaur');
+myAnimal1.run();
+myAnimal1.sayHi();
+
+const myDog1 = new Dog('Sharik', 'John');
+myDog1.run();
+myDog1.sayHi();
+
+console.log(myDog1 instanceof Animal);
+console.log(myDog1 instanceof Dog);
+console.log(myAnimal1 instanceof Animal);
+console.log(myAnimal1 instanceof Dog);
+
+// Функциональный стиль, замыкания
+const funcAnimal = function(name) {
+    this.name = name;
+
+    this.run = function() {
+        console.log('running');
+    };
+
+    this.sayHi = function() {
+        console.log(`Hi, I'm ${this.name}!`);
+    };
+};
+
+const funcDog = function(name, ownerName) {
+    funcAnimal.call(this, name);
+    this.ownerName = ownerName;
+    const _privateVoice = 'Woof';
+
+    const _woof = function() {
+        return _privateVoice;
+    };
+
+    this.sayHi = function() {
+        console.log(`Hi, I'm ${this.name}, and I love my human ${this.ownerName}! ${_woof()}!`);
+    }
+};
+
+const myAnimal2 = new funcAnimal('Dragon');
+myAnimal2.run();
+myAnimal2.sayHi();
+
+const myDog2 = new funcDog('Bobik', 'Andrew');
+myDog2.run();
+myDog2.sayHi();
+
+// ES6+
+class esAnimal {
+    constructor(name) {
+        this.name = name;
+    }
+
+    run() {
+        console.log('running');
+    }
+
+    sayHi() {
+        console.log(`Hi, I'm ${this.name}`);
+    }
+}
+
+class esDog extends esAnimal {
+    constructor(name, ownerName) {
+        super(name);
+        this.ownerName = ownerName;
+        this.#privateVoice = 'Woof';
+    }
+
+    #privateVoice;
+
+    #woof() {
+        return this.#privateVoice;
+    }
+
+    sayHi() {
+        console.log(`Hi, I'm ${this.name}, and I love my human ${this.ownerName}! ${this.#woof()}!`);
+    }
+}
+
+const myAnimal3 = new esAnimal('Crab');
+myAnimal3.run();
+myAnimal3.sayHi();
+
+const myDog3 = new esDog('Laika', 'Voldemar');
+myDog3.run();
+myDog3.sayHi();
